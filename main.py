@@ -10,10 +10,6 @@ header = {
     "Accept-Language": "en-GB, en-US; q=0.9, en;q=0.8"
 }
 
-# driver = webdriver.Chrome(executable_path=chrome_driver_path)
-
-# driver.get(url="https://www.google.com/search?q=ohio+state+football&source=lnms&tbm=nws&sa=X&ved=2ahUKEwiMxJWFg7PyAhWTKs0KHTKlBd4Q_AUoAXoECAEQAw&biw=1848&bih=949")
-
 response = requests.get(endpoint, headers=header)
 ohiostateheadlines = response.text
 
@@ -22,12 +18,22 @@ soup = BeautifulSoup(ohiostateheadlines, "html.parser")
 # print(cards)
 headlines = soup.find_all('div', {'class':'JheGif nDgy9d'})
 # nDgy9d
-print(headlines)
-# news_headlines = []
-# for headline in headlines:
-#     print(headline)
-#     headline_text = headline.getText()
-#     news_headlines.append(headline_text)
+
+
+headline_dict = {}
+index = 0
+for headline in headlines:
+    a = headline.find_previous('a')
+    link = a['href']
+    headline_text = headline.getText()
+    headline_dict[index] = {'headline':headline_text, 'link':link}
+    index +=1
+
+# cards = soup.find_all('g-card["a"]["href"]', {'class':'nChh6e DyOREb'})
+# print(cards)
+
+
+
 
 # print(news_headlines)
 # driver.find_element_by_id
